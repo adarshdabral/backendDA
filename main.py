@@ -19,10 +19,10 @@ async def generate_description(data: AnswersRequest):
     answers = data.answers
 
     intro_phrases = [
-        "Hey there! 👋",
+        "Hey there! ",
         "Looking for someone to vibe with?",
         "Adventurer by day, Netflix expert by night.",
-        "I may not be a photographer, but I can picture us together 😉"
+        "I may not be a photographer, but I can picture us together "
     ]
 
     base_desc = random.choice(intro_phrases) + "\n\n"
