@@ -1,26 +1,18 @@
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 import random
+from mangum import Mangum  
 
 app = FastAPI()
 
-# Allow requests from frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class AnswersRequest(BaseModel):
-    answers: List[str]
 
 @app.get("/")
 async def read_root():
     return {"message": "API is live!"}
+
+class AnswersRequest(BaseModel):
+    answers: List[str]
 
 @app.post("/generate-description")
 async def generate_description(data: AnswersRequest):
@@ -59,3 +51,6 @@ async def generate_description(data: AnswersRequest):
     base_desc += "\n" + random.choice(closing)
 
     return {"description": base_desc.strip()}
+
+
+handler = Mangum(app)
